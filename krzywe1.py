@@ -22,11 +22,25 @@ def createElipticCurve(p):
     while (delta(a, b) % p == 0):
         createElipticCurve(p)
     else:
-        return elipticCurve
+        return elipticCurve, a, b, x
 
 def main():
     p = randomP()
-    elipticCurve = createElipticCurve(p)
+    elipticCurve, a, b, x = createElipticCurve(p)
+
+    if pow(elipticCurve(a,b,x), (p - 1) // 2, p) != 1:
+        print('f nie jest reszta kwadratowa p')
+        main()
+        return
+
+    y = pow(elipticCurve(a,b,x), (p + 1) // 4, p)
+
+    print(f'y: {y}')
+
+    print(f'Punkt({x},{y})')
+
     print(elipticCurve)
+    print(pow(y, 2, p))
+    print(pow(y, 2, p) ==  elipticCurve(a,b,x))
 
 main()
