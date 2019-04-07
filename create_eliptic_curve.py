@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+import inspect as i
+import sys
+
 
 from Crypto.Util import number
 INIT_PRIME_SIZE = 256
@@ -29,7 +32,7 @@ def main():
     elipticCurve, a, b, x = createElipticCurve(p)
 
     if pow(elipticCurve(a,b,x), (p - 1) // 2, p) != 1:
-        print('f nie jest reszta kwadratowa p')
+        print('This is not quadratic residue')
         main()
         return
 
@@ -37,10 +40,10 @@ def main():
 
     print(f'y: {y}')
 
-    print(f'Punkt({x},{y})')
-
-    print(elipticCurve)
-    print(pow(y, 2, p))
-    print(pow(y, 2, p) ==  elipticCurve(a,b,x))
+    print(f'Point({x},{y})')
+    sys.stdout.write(i.getsource(elipticCurve))
+    print(f'A: {a}')
+    print(f'B: {b}')
+    print(f'X: {x}')
 
 main()
