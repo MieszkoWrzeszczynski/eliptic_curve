@@ -1,8 +1,5 @@
 #!/usr/bin/python3
 import inspect as i
-import sys
-
-
 from Crypto.Util import number
 INIT_PRIME_SIZE = 256
 
@@ -19,7 +16,7 @@ def createElipticCurve(p):
     b = getRandom(p)
     x = getRandom(p)
 
-    delta = lambda a, b: ((4 * pow(a, 3, p)) % p) + ((27 * pow(b, 2, p)) % p )
+    delta = lambda a, b: (4 * pow(a, 3, p)) + (27 * pow(b, 2, p))
     elipticCurve = lambda a, b, x: (pow(x, 3, p) + (a * x) + b) % p
 
     while (delta(a, b) % p == 0):
@@ -38,12 +35,10 @@ def main():
 
     y = pow(elipticCurve(a,b,x), (p + 1) // 4, p)
 
-    print(f'y: {y}')
-
     print(f'Point({x},{y})')
-    sys.stdout.write(i.getsource(elipticCurve))
+    print('Eliptic curves coefficients')
+    print(f'X: {x}')
     print(f'A: {a}')
     print(f'B: {b}')
-    print(f'X: {x}')
 
 main()
