@@ -32,7 +32,7 @@ class ElipticCurve(object):
       return True
     return (p.y() * p.y() - (p.x() * p.x() * p.x() + self.__a * p.x() + self.__b)) % self.__p == 0
 
-  def isQuatraticResidue(self):
+  def isNotQuatraticResidue(self):
     return pow(self.getCurve(self.__a, self.__b, self .__x), (self.__p - 1) // 2, self.__p) != 1
 
   def __str__(self):

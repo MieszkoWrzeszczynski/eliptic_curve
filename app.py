@@ -20,11 +20,12 @@ def createElipticCurve(p):
 
     delta = lambda a, b: (4 * pow(a, 3, p)) + (27 * pow(b, 2, p))
     elipticCurve = ElipticCurve(p, a, b, x)
+    y = elipticCurve.y()    
 
     while (delta(a, b) % p == 0):
         createElipticCurve(p)
     else:
-        return elipticCurve, x
+        return elipticCurve, x, y
 
 
 def createDiffieHellman(elipticCurve, point, p):
@@ -47,33 +48,30 @@ def createDiffieHellman(elipticCurve, point, p):
 
 def main():
     p = randomP()
-    elipticCurve, x = createElipticCurve(p)
+    elipticCurve, x, y  = createElipticCurve(p)
 
-    if elipticCurve.isQuatraticResidue():
+    if elipticCurve.isNotQuatraticResidue():
         print('This is not quadratic residue')
         main()
         return
-    
-    y = elipticCurve.y()
 
     #Addition  
     p = Point(x, y, elipticCurve)
     r = Point(x, y, elipticCurve)
     q = p.__add__(r)
-
-    print(elipticCurve.contains_point(q))
+    print("Curve contains point:", elipticCurve.contains_point(q))
 
     #Double
     q1 = Point(x, y, elipticCurve)
-    q1 = q1.double()    
-    print(elipticCurve.contains_point(q1))
+    q1 = q1.double()
+    print("Curve contains point:", elipticCurve.contains_point(q1))
 
     #multiplication
     q2 = Point(x, y, elipticCurve)
-    q3 = q2.__mul__(q2, 1)
-    print(elipticCurve.contains_point(q3))
+    q3 = q2.__mul__(q2, 100)
+    print("Curve contains point:", elipticCurve.contains_point(q3))    
 
-    #Diffiego-Hellmana
+    #Diffigo-Hellmana
     secret_point = createDiffieHellman(elipticCurve, q2, 250)
     print("Secret point is:", secret_point)
 
