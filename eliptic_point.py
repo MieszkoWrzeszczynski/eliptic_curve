@@ -1,11 +1,10 @@
 import numbertheory
 
 class Point(object):
-  def __init__(self, x, y, curve, order = None):
+  def __init__(self, x, y, curve):
     self.__x = x
     self.__y = y
     self.__curve = curve
-    self.__order = order
 
   def __str__(self):
     return "ElipticPoint(x=%d, y=%d)" % (self.__x, self.__y)
@@ -81,36 +80,15 @@ class Point(object):
     else:
       return ud + m
 
-  def __mul__(self, other):
-    def leftmost_bit(x):
-      assert x > 0
-      result = 1
-      while result <= x:
-        result = 2 * result
-      return result // 2
+  def __mul__(self, point, n):
+    if n == 0:
+        return INFINITY
+    if n == 1:
+        return point
+    if n % 2 == 1:
+      return self.__mul__(self.__add__(point), n - 1) # addition when n is odd
 
-    e = other
-    if self.__order:
-      e = e % self.__order
-    if e == 0:
-      return INFINITY
-    if self == INFINITY:
-      return INFINITY
-    assert e > 0
-
-    e3 = 3 * e
-    negative_self = Point(self.__x, -self.__y, self.__curve, self.__order)
-    i = leftmost_bit(e3) // 2
-    result = self
-    while i > 1:
-      result = result.double()
-      if (e3 & i) != 0 and (e & i) == 0:
-        result = result + self
-      if (e3 & i) == 0 and (e & i) != 0:
-        result = result + negative_self
-      i = i // 2
-
-    return result
+    return self.__mul__(point.double(), n/2)   # doubling when n is even
 
   def x(self):
     return self.__x

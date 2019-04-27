@@ -31,15 +31,15 @@ def createDiffieHellman(elipticCurve, point, p):
     aliceKa = number.getRandomRange(0, p)
     bobKb = number.getRandomRange(0, p)
 
-    alicePa = point.__mul__(aliceKa)
-    bobPb = point.__mul__(bobKb)
-    bobPoint= alicePa.__mul__(bobKb)
-    alicePoint = bobPb.__mul__(aliceKa)
+    alicePa = point.__mul__(point, aliceKa)
+    bobPb = point.__mul__(point, bobKb)
+    bobPoint= alicePa.__mul__(alicePa, bobKb)
+    alicePoint = bobPb.__mul__(bobPb, aliceKa)
 
     if(not bobPoint.__eq__(alicePoint)):
         print("Points are not equal")
 
-    if(not elipticCurve.contains_point(bobPoint.x(), bobPoint.y())):
+    if(not elipticCurve.contains_point(bobPoint)):
         print("Point is not on a curve")
 
     return bobPoint
@@ -61,17 +61,17 @@ def main():
     r = Point(x, y, elipticCurve)
     q = p.__add__(r)
 
-    print(elipticCurve.contains_point(q.x(), q.y()))
+    print(elipticCurve.contains_point(q))
 
     #Double
     q1 = Point(x, y, elipticCurve)
     q1 = q1.double()    
-    print(elipticCurve.contains_point(q1.x(), q1.y()))
+    print(elipticCurve.contains_point(q1))
 
-    #__mul__tiplication
+    #multiplication
     q2 = Point(x, y, elipticCurve)
-    q3 = q2.__mul__(10)    
-    print(elipticCurve.contains_point(q3.x(), q3.y()))
+    q3 = q2.__mul__(q2, 10)
+    print(elipticCurve.contains_point(q3))
 
     #Diffiego-Hellmana
     secret_point = createDiffieHellman(elipticCurve, q2, 250)

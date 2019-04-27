@@ -24,9 +24,9 @@ class ElipticCurve(object):
   def getCurve(self, a, b, x):
     return (pow(x, 3, self.__p) + (a * x) + b) % self.__p
     
-  def contains_point(self, x, y):
+  def contains_point(self, p):
     """Is the point (x,y) on this curve?"""
-    return (y * y - (x * x * x + self.__a * x + self.__b)) % self.__p == 0
+    return (p.y() * p.y() - (p.x() * p.x() * p.x() + self.__a * p.x() + self.__b)) % self.__p == 0
 
   def isQuatraticResidue(self):
     return pow(self.getCurve(self.__a, self.__b, self .__x), (self.__p - 1) // 2, self.__p) != 1
