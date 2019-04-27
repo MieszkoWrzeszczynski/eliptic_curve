@@ -27,7 +27,7 @@ def createElipticCurve(p):
         return elipticCurve, x
 
 
-def crateDiffieHellman(elipticCurve, point, p):
+def createDiffieHellman(elipticCurve, point, p):
     aliceKa = number.getRandomRange(0, p)
     bobKb = number.getRandomRange(0, p)
 
@@ -73,9 +73,8 @@ def main():
     q3 = q2.__mul__(10)    
     print(elipticCurve.contains_point(q3.x(), q3.y()))
 
-
     #Diffiego-Hellmana
-    print(crateDiffieHellman(elipticCurve, q2, 250))
-
+    secret_point = createDiffieHellman(elipticCurve, q2, 250)
+    print("Secret point is:", secret_point)
 
 main()

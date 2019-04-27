@@ -6,7 +6,10 @@ class Point(object):
     self.__y = y
     self.__curve = curve
     self.__order = order
-  
+
+  def __str__(self):
+    return "ElipticPoint(x=%d, y=%d)" % (self.__x, self.__y)
+
   def __eq__(self, other):
     """Return True if the points are identical, False otherwise."""
     if self.__curve == other.__curve \
