@@ -70,7 +70,7 @@ def main():
 
     #multiplication
     q2 = Point(x, y, elipticCurve)
-    q3 = q2.__mul__(q2, 10)
+    q3 = q2.__mul__(q2, 1)
     print(elipticCurve.contains_point(q3))
 
     #Diffiego-Hellmana

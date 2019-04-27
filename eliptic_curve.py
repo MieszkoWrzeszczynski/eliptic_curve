@@ -1,3 +1,5 @@
+from eliptic_point import Point
+
 class ElipticCurve(object):
   def __init__(self, p, a, b, x):
     """The curve of points satisfying y^2 = x^3 + a*x + b (mod p)."""
@@ -26,6 +28,8 @@ class ElipticCurve(object):
     
   def contains_point(self, p):
     """Is the point (x,y) on this curve?"""
+    if p == INFINITY:
+      return True
     return (p.y() * p.y() - (p.x() * p.x() * p.x() + self.__a * p.x() + self.__b)) % self.__p == 0
 
   def isQuatraticResidue(self):
@@ -33,3 +37,5 @@ class ElipticCurve(object):
 
   def __str__(self):
     return "ElipticCurve(p=%d, a=%d, b=%d, x=%d)" % (self.__p, self.__a, self.__b, self.__x)
+
+INFINITY = Point(None, None, None)
