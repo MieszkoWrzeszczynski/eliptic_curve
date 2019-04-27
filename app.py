@@ -38,9 +38,6 @@ def main():
     
     y = elipticCurve.y()
 
-    print(f'Point({x},{y})')
-    print('Eliptic curves coefficients')
-
     #Addition  
     p = Point(x, y, elipticCurve)
     r = Point(x, y, elipticCurve)
@@ -53,5 +50,9 @@ def main():
     q1 = q1.double()    
     print(elipticCurve.contains_point(q1.x(), q1.y()))
 
+    #Multiplication
+    q2 = Point(x, y, elipticCurve)
+    q3 = q2.mul(10)    
+    print(elipticCurve.contains_point(q3.x(), q3.y()))
 
 main()

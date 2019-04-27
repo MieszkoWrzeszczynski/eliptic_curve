@@ -1,9 +1,10 @@
 
 class Point(object):
-  def __init__(self, x, y, curve):
+  def __init__(self, x, y, curve, order = None):
     self.__x = x
     self.__y = y
     self.__curve = curve
+    self.__order = order
 
   def __add__(self, other):
     if other == INFINITY:
@@ -57,6 +58,43 @@ class Point(object):
         return ud
     else:
         return ud + m
+
+  def mul(self, other):
+    """Multiply a point by an integer."""
+
+    def leftmost_bit(x):
+      assert x > 0
+      result = 1
+      while result <= x:
+        result = 2 * result
+      return result // 2
+
+    e = other
+    if self.__order:
+      e = e % self.__order
+    if e == 0:
+      return INFINITY
+    if self == INFINITY:
+      return INFINITY
+    assert e > 0
+
+    # From X9.62 D.3.2:
+
+    e3 = 3 * e
+    negative_self = Point(self.__curve, self.__x, -self.__y, self.__order)
+    i = leftmost_bit(e3) // 2
+    result = self
+    # print_("Multiplying %s by %d (e3 = %d):" % (self, other, e3))
+    while i > 1:
+      result = result.double()
+      if (e3 & i) != 0 and (e & i) == 0:
+        result = result + self
+      if (e3 & i) == 0 and (e & i) != 0:
+        result = result + negative_self
+      # print_(". . . i = %d, result = %s" % ( i, result ))
+      i = i // 2
+
+    return result
 
   def x(self):
     return self.__x
