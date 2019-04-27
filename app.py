@@ -27,6 +27,24 @@ def createElipticCurve(p):
         return elipticCurve, x
 
 
+def crateDiffieHellman(elipticCurve, point, p):
+    aliceKa = number.getRandomRange(0, p)
+    bobKb = number.getRandomRange(0, p)
+
+    alicePa = point.__mul__(aliceKa)
+    bobPb = point.__mul__(bobKb)
+    bobPoint= alicePa.__mul__(bobKb)
+    alicePoint = bobPb.__mul__(aliceKa)
+
+    if(not bobPoint.__eq__(alicePoint)):
+        print("Points are not equal")
+
+    if(not elipticCurve.contains_point(bobPoint.x(), bobPoint.y())):
+        print("Point is not on a curve")
+
+    return bobPoint
+
+
 def main():
     p = randomP()
     elipticCurve, x = createElipticCurve(p)
@@ -50,9 +68,14 @@ def main():
     q1 = q1.double()    
     print(elipticCurve.contains_point(q1.x(), q1.y()))
 
-    #Multiplication
+    #__mul__tiplication
     q2 = Point(x, y, elipticCurve)
-    q3 = q2.mul(10)    
+    q3 = q2.__mul__(10)    
     print(elipticCurve.contains_point(q3.x(), q3.y()))
+
+
+    #Diffiego-Hellmana
+    print(crateDiffieHellman(elipticCurve, q2, 250))
+
 
 main()
