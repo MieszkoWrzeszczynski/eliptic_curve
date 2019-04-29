@@ -23,6 +23,7 @@ class Point(object):
       return other
 
     assert self.__curve == other.__curve
+    
     if self.__x == other.__x:
       if (self.__y + other.__y) % self.__curve.p() == 0:
         return INFINITY
@@ -77,17 +78,17 @@ class Point(object):
     else:
       return ud + m
 
-  def __mul__(self, n, point = False):
-    if not point:
-      point = self      
+  def __mul__(self, n, acc = False):
+    if not acc:
+      acc = self      
     if n == 0:
         return INFINITY
     if n == 1:
-        return point
+        return acc
     if n % 2 == 1:
-      return self.__mul__(n - 1, self.__add__(point)) # addition when n is odd
+      return self.__mul__(n - 1, self.__add__(acc)) # addition when n is odd
 
-    return self.__mul__(n /2, point.double())   # doubling when n is even
+    return self.__mul__(n /2, acc.double())   # doubling when n is even
 
   def x(self):
     return self.__x

@@ -5,7 +5,7 @@ from eliptic_point import Point
 
 INIT_PRIME_SIZE = 256
 
-def randomP():
+def randomPrimeNumber():
     p = number.getPrime(INIT_PRIME_SIZE)
 
     while(p % 4 != 3):
@@ -47,7 +47,7 @@ def createDiffieHellman(elipticCurve, point, p):
 
 
 def main():
-    p = randomP()
+    p = randomPrimeNumber()
     elipticCurve, x, y = createElipticCurve(p)
 
     if elipticCurve.isNotQuatraticResidue():
