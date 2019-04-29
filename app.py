@@ -19,8 +19,8 @@ def createElipticCurve(p):
     x = getRandom(p)
 
     delta = lambda a, b: (4 * pow(a, 3, p)) + (27 * pow(b, 2, p))
-    elipticCurve = ElipticCurve(p, a, b, x)
-    y = elipticCurve.yPointCoordinateFromCurve()    
+    elipticCurve = ElipticCurve(p, a, b)
+    y = elipticCurve.yPointCoordinateFromCurve(x)    
 
     while (delta(a, b) % p == 0):
         createElipticCurve(p)
@@ -50,7 +50,7 @@ def main():
     p = randomPrimeNumber()
     elipticCurve, x, y = createElipticCurve(p)
 
-    if elipticCurve.isNotQuatraticResidue():
+    if elipticCurve.isNotQuatraticResidue(x):
         print('This is not quadratic residue')
         main()
         return
