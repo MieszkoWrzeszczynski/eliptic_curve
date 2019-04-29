@@ -1,5 +1,3 @@
-import numbertheory
-
 class Point(object):
   def __init__(self, x, y, curve):
     self.__x = x
@@ -18,7 +16,6 @@ class Point(object):
     else:
       return False
 
-
   def __add__(self, other):
     if other == INFINITY:
       return self
@@ -35,7 +32,7 @@ class Point(object):
     p = self.__curve.p()
 
     l = ((other.__y - self.__y) * \
-         numbertheory.inverse_mod(other.__x - self.__x, p)) % p
+         self.inverse_mod(other.__x - self.__x, p)) % p
 
     x3 = (l * l - self.__x - other.__x) % p
     y3 = (l * (self.__x - x3) - self.__y) % p

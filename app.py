@@ -3,7 +3,7 @@ from Crypto.Util import number
 from eliptic_curve import ElipticCurve
 from eliptic_point import Point
 
-INIT_PRIME_SIZE = 126
+INIT_PRIME_SIZE = 256
 
 def randomP():
     p = number.getPrime(INIT_PRIME_SIZE)
