@@ -80,15 +80,17 @@ class Point(object):
     else:
       return ud + m
 
-  def __mul__(self, point, n):
+  def __mul__(self, n, point = False):
+    if not point:
+      point = self      
     if n == 0:
         return INFINITY
     if n == 1:
         return point
     if n % 2 == 1:
-      return self.__mul__(self.__add__(point), n - 1) # addition when n is odd
+      return self.__mul__(n - 1, self.__add__(point)) # addition when n is odd
 
-    return self.__mul__(point.double(), n/2)   # doubling when n is even
+    return self.__mul__(n /2, point.double())   # doubling when n is even
 
   def x(self):
     return self.__x

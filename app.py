@@ -3,7 +3,7 @@ from Crypto.Util import number
 from eliptic_curve import ElipticCurve
 from eliptic_point import Point
 
-INIT_PRIME_SIZE = 256
+INIT_PRIME_SIZE = 126
 
 def randomP():
     p = number.getPrime(INIT_PRIME_SIZE)
@@ -32,12 +32,12 @@ def createDiffieHellman(elipticCurve, point, p):
     aliceKa = number.getRandomRange(0, p)
     bobKb = number.getRandomRange(0, p)
 
-    alicePa = point.__mul__(point, aliceKa)
-    bobPb = point.__mul__(point, bobKb)
-    bobPoint= alicePa.__mul__(alicePa, bobKb)
-    alicePoint = bobPb.__mul__(bobPb, aliceKa)
+    alicePa = point * aliceKa
+    bobPb = point * bobKb
+    bobPoint= alicePa * bobKb
+    alicePoint = bobPb * aliceKa
 
-    if(not bobPoint.__eq__(alicePoint)):
+    if(not bobPoint == alicePoint):
         print("Points are not equal")
 
     if(not elipticCurve.contains_point(bobPoint)):
@@ -48,7 +48,7 @@ def createDiffieHellman(elipticCurve, point, p):
 
 def main():
     p = randomP()
-    elipticCurve, x, y  = createElipticCurve(p)
+    elipticCurve, x, y = createElipticCurve(p)
 
     if elipticCurve.isNotQuatraticResidue():
         print('This is not quadratic residue')
@@ -58,7 +58,7 @@ def main():
     #Addition  
     p = Point(x, y, elipticCurve)
     r = Point(x, y, elipticCurve)
-    q = p.__add__(r)
+    q = p + r
     print("Curve contains point:", elipticCurve.contains_point(q))
 
     #Double
@@ -68,11 +68,13 @@ def main():
 
     #multiplication
     q2 = Point(x, y, elipticCurve)
-    q3 = q2.__mul__(q2, 100)
+    q3 = q2 * 100
+    print(q2, q3)
     print("Curve contains point:", elipticCurve.contains_point(q3))    
 
     #Diffigo-Hellmana
-    secret_point = createDiffieHellman(elipticCurve, q2, 250)
+    secret_point = createDiffieHellman(elipticCurve, q2, 2500)
     print("Secret point is:", secret_point)
+    print(elipticCurve)
 
 main()
