@@ -20,7 +20,7 @@ def createElipticCurve(p):
 
     delta = lambda a, b: (4 * pow(a, 3, p)) + (27 * pow(b, 2, p))
     elipticCurve = ElipticCurve(p, a, b, x)
-    y = elipticCurve.y()    
+    y = elipticCurve.yPointCoordinateFromCurve()    
 
     while (delta(a, b) % p == 0):
         createElipticCurve(p)

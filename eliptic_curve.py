@@ -20,7 +20,7 @@ class ElipticCurve(object):
   def x(self):
     return self.__x
   
-  def y(self):
+  def yPointCoordinateFromCurve(self):
     return pow(self.getCurveValue(self.__x), (self.__p + 1) // 4, self.__p)
 
   def getCurveValue(self, x):
