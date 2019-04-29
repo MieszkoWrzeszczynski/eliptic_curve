@@ -21,10 +21,10 @@ class ElipticCurve(object):
     return self.__x
   
   def y(self):
-    return pow(self.getCurve(self.__a, self.__b, self.__x), (self.__p + 1) // 4, self.__p)
+    return pow(self.getCurveValue(self.__x), (self.__p + 1) // 4, self.__p)
 
-  def getCurve(self, a, b, x):
-    return (pow(x, 3, self.__p) + (a * x) + b) % self.__p
+  def getCurveValue(self, x):
+    return (pow(x, 3, self.__p) + (self.__a * x) + self.__b) % self.__p
     
   def contains_point(self, p):
     """Is the point (x,y) on this curve?"""
@@ -33,7 +33,7 @@ class ElipticCurve(object):
     return (p.y() * p.y() - (p.x() * p.x() * p.x() + self.__a * p.x() + self.__b)) % self.__p == 0
 
   def isNotQuatraticResidue(self):
-    return pow(self.getCurve(self.__a, self.__b, self .__x), (self.__p - 1) // 2, self.__p) != 1
+    return pow(self.getCurveValue(self .__x), (self.__p - 1) // 2, self.__p) != 1
 
   def __str__(self):
     return "ElipticCurve(p=%d, a=%d, b=%d, x=%d)" % (self.__p, self.__a, self.__b, self.__x)
